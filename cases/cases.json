@@ -1,0 +1,123 @@
+{
+  "_note": "Demo cases for the hackathon brief. `expectedRoute` is the route the decision rules must produce for the answers Clef returns; `expectedService` / `expectedPreferToday` pin the rest of the decision. `note` explains why the case exists. Case 10 is deliberately ambiguous: showing how Clef doubts is the point.",
+  "_source": "TAREA.md, section 'Demo cases'",
+  "cases": [
+    {
+      "id": "t1-chocolate",
+      "kind": "triage",
+      "input": {
+        "species": "perro",
+        "age": "2 años",
+        "message": "Mi perro se comió una barra de chocolate hace una hora y está temblando"
+      },
+      "expectedRoute": "guardia",
+      "expectedService": null,
+      "note": "Toxicity with neurological signs: straight to the emergency room."
+    },
+    {
+      "id": "t2-grooming-vomit",
+      "kind": "triage",
+      "input": {
+        "species": "perro",
+        "age": "3 años",
+        "message": "Quiero bañarlo, pero vomitó dos veces hoy"
+      },
+      "expectedRoute": "booking",
+      "expectedService": "consulta",
+      "note": "A grooming request with health signs must never end in grooming (S7)."
+    },
+    {
+      "id": "t3-second-vaccine",
+      "kind": "triage",
+      "input": {
+        "species": "perro",
+        "age": "3 meses",
+        "message": "Le toca la segunda vacuna al cachorro"
+      },
+      "expectedRoute": "booking",
+      "expectedService": "vacunacion",
+      "note": "Healthy pet, due for vaccines."
+    },
+    {
+      "id": "t4-neuter-cat",
+      "kind": "triage",
+      "input": {
+        "species": "gato",
+        "age": "7 meses",
+        "message": "Quiero castrar a mi gata de 7 meses"
+      },
+      "expectedRoute": "booking",
+      "expectedService": "castracion",
+      "note": "Elective surgery request, not urgent."
+    },
+    {
+      "id": "t5-cat-urinary",
+      "kind": "triage",
+      "input": {
+        "species": "gato",
+        "age": "4 años",
+        "message": "Mi gato no hace pis hace un día y llora en la piedra"
+      },
+      "expectedRoute": "guardia",
+      "expectedService": null,
+      "note": "Feline urinary obstruction is an emergency."
+    },
+    {
+      "id": "t6-skin-lump",
+      "kind": "triage",
+      "input": {
+        "species": "perro",
+        "age": "8 años",
+        "message": "Tiene una pelotita en la piel desde hace un mes, no le molesta"
+      },
+      "expectedRoute": "booking",
+      "expectedService": "consulta",
+      "expectedPreferToday": false,
+      "note": "Chronic, not bothering the pet: a consultation, but not today."
+    },
+    {
+      "id": "f7-day-2-improving",
+      "kind": "followup",
+      "input": {
+        "plan": "arroz 3 días, después agregar alimento de a poco",
+        "day": 2,
+        "report": "toma agua solo, la caca está más firme, come poquito"
+      },
+      "expectedRoute": "seguir_plan",
+      "note": "Improving within the plan: keep following it."
+    },
+    {
+      "id": "f8-day-3-red-flags",
+      "kind": "followup",
+      "input": {
+        "plan": "arroz 3 días, después agregar alimento de a poco",
+        "day": 3,
+        "report": "no quiere tomar agua, está decaído y la caca tiene sangre"
+      },
+      "expectedRoute": "guardia",
+      "note": "Blood and not drinking: warning signs, guardia now."
+    },
+    {
+      "id": "f9-day-4-no-progress",
+      "kind": "followup",
+      "input": {
+        "plan": "arroz 3 días, después agregar alimento de a poco",
+        "day": 4,
+        "report": "sigue con diarrea igual que el primer día, pero toma agua y juega"
+      },
+      "expectedRoute": "consultar",
+      "note": "No improvement and no red flag: call the vet today, do not wait."
+    },
+    {
+      "id": "t10-ambiguous",
+      "kind": "triage",
+      "input": {
+        "species": "gato",
+        "age": "sin dato",
+        "message": "Está raro, como triste"
+      },
+      "expectedRoute": "choose_service",
+      "note": "Deliberately ambiguous. The demo shows how Clef doubts: low service confidence offers two options instead of guessing."
+    }
+  ]
+}
