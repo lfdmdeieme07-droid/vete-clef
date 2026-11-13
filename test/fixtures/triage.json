@@ -1,0 +1,126 @@
+{
+  "_note": "SYNTHETIC fixtures. Shape taken from docs/api.md of the hackathon repo; these are NOT recorded Clef responses. Replace with real captures once NAN_KEY has access to model 'clef' (see odd/tasks/vete-clef.md, L3 and L6).",
+  "cases": {
+    "emergency": {
+      "model": "clef",
+      "answers": {
+        "emergency": { "type": "noul", "noul": 0.87 },
+        "service": {
+          "type": "choice",
+          "choice": "consulta",
+          "probabilities": { "consulta": 0.91, "vacunacion": 0.01, "castracion": 0.01, "peluqueria": 0.02, "control": 0.05 },
+          "confidence": 0.86
+        },
+        "timing": {
+          "type": "score",
+          "score": 3.4,
+          "legend": { "0": "More than a week can wait", "1": "This week", "2": "Within 48 hours", "3": "Today" },
+          "probabilities": { "0": 0.01, "1": 0.02, "2": 0.09, "3": 0.88 },
+          "confidence": 0.81
+        }
+      },
+      "usage": { "input_tokens": 214, "output_tokens": 0 }
+    },
+    "today": {
+      "model": "clef",
+      "answers": {
+        "emergency": { "type": "noul", "noul": 0.05 },
+        "service": {
+          "type": "choice",
+          "choice": "consulta",
+          "probabilities": { "consulta": 0.88, "vacunacion": 0.02, "castracion": 0.01, "peluqueria": 0.03, "control": 0.06 },
+          "confidence": 0.83
+        },
+        "timing": {
+          "type": "score",
+          "score": 2.7,
+          "legend": { "0": "More than a week can wait", "1": "This week", "2": "Within 48 hours", "3": "Today" },
+          "probabilities": { "0": 0.02, "1": 0.05, "2": 0.3, "3": 0.63 },
+          "confidence": 0.6
+        }
+      },
+      "usage": { "input_tokens": 198, "output_tokens": 0 }
+    },
+    "routine": {
+      "model": "clef",
+      "answers": {
+        "emergency": { "type": "noul", "noul": 0.02 },
+        "service": {
+          "type": "choice",
+          "choice": "vacunacion",
+          "probabilities": { "consulta": 0.03, "vacunacion": 0.94, "castracion": 0.01, "peluqueria": 0.01, "control": 0.01 },
+          "confidence": 0.93
+        },
+        "timing": {
+          "type": "score",
+          "score": 1.2,
+          "legend": { "0": "More than a week can wait", "1": "This week", "2": "Within 48 hours", "3": "Today" },
+          "probabilities": { "0": 0.2, "1": 0.55, "2": 0.2, "3": 0.05 },
+          "confidence": 0.44
+        }
+      },
+      "usage": { "input_tokens": 176, "output_tokens": 0 }
+    },
+    "ambiguous": {
+      "model": "clef",
+      "answers": {
+        "emergency": { "type": "noul", "noul": 0.18 },
+        "service": {
+          "type": "choice",
+          "choice": "consulta",
+          "probabilities": { "consulta": 0.44, "vacunacion": 0.05, "castracion": 0.02, "peluqueria": 0.18, "control": 0.31 },
+          "confidence": 0.41
+        },
+        "timing": {
+          "type": "score",
+          "score": 1.9,
+          "legend": { "0": "More than a week can wait", "1": "This week", "2": "Within 48 hours", "3": "Today" },
+          "probabilities": { "0": 0.15, "1": 0.35, "2": 0.3, "3": 0.2 },
+          "confidence": 0.28
+        }
+      },
+      "usage": { "input_tokens": 189, "output_tokens": 0 }
+    },
+    "grooming": {
+      "model": "clef",
+      "answers": {
+        "emergency": { "type": "noul", "noul": 0.12 },
+        "service": {
+          "type": "choice",
+          "choice": "peluqueria",
+          "probabilities": { "consulta": 0.24, "vacunacion": 0.01, "castracion": 0.01, "peluqueria": 0.72, "control": 0.02 },
+          "confidence": 0.71
+        },
+        "timing": {
+          "type": "score",
+          "score": 2.1,
+          "legend": { "0": "More than a week can wait", "1": "This week", "2": "Within 48 hours", "3": "Today" },
+          "probabilities": { "0": 0.05, "1": 0.2, "2": 0.45, "3": 0.3 },
+          "confidence": 0.35
+        }
+      },
+      "usage": { "input_tokens": 203, "output_tokens": 0 }
+    },
+    "labeledScoreProbabilities": {
+      "_why": "docs/api.md asks to verify the keys of score probabilities with a real call. Until then the parser must accept labels as well as indices (odd/tasks/vete-clef.md, L6).",
+      "model": "clef",
+      "answers": {
+        "emergency": { "type": "noul", "noul": 0.04 },
+        "service": {
+          "type": "choice",
+          "choice": "control",
+          "probabilities": { "consulta": 0.2, "vacunacion": 0.05, "castracion": 0.02, "peluqueria": 0.03, "control": 0.7 },
+          "confidence": 0.66
+        },
+        "timing": {
+          "type": "score",
+          "score": 1.7,
+          "legend": { "0": "More than a week can wait", "1": "This week", "2": "Within 48 hours", "3": "Today" },
+          "probabilities": { "More than a week can wait": 0.1, "This week": 0.4, "Within 48 hours": 0.35, "Today": 0.15 },
+          "confidence": 0.3
+        }
+      },
+      "usage": { "input_tokens": 191, "output_tokens": 0 }
+    }
+  }
+}
