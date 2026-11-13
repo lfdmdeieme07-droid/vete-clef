@@ -1,0 +1,15 @@
+# Cloudflare Worker with static assets (S17).
+#
+# `main` handles POST /api/triage and POST /api/followup. The files in public/
+# are served by Cloudflare's asset layer, so index.html, styles.css and app.js
+# never reach the Worker.
+
+name = "vete-clef"
+main = "src/worker.js"
+compatibility_date = "2026-11-13"
+
+[assets]
+directory = "public"
+
+# Local only: `wrangler dev` reads NAN_KEY from .dev.vars, which .gitignore
+# already excludes. Deployed secrets are set by Fabi, never from this file.

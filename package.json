@@ -1,0 +1,15 @@
+{
+  "name": "vete-clef",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Veterinary triage assistant where Clef makes the decision",
+  "scripts": {
+    "test": "node --test test/",
+    "dev": "wrangler dev",
+    "calibrate": "node scripts/calibrate.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "^4.162.0"
+  }
+}
