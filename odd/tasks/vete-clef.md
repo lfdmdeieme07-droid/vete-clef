@@ -40,16 +40,16 @@ S28. Prohibido: pushear, deployar, crear repos remotos o setear secrets; poner l
 
 | ID | Specs | Ruta | Commit |
 | -- | ----- | ---- | ------ |
-| T1 | S17, S22, S27 | Config del proyecto y feature doc | `docs: add ODD plan for vete clef` |
-| T2 | S4-S7, S22, S26 | Reglas puras del triage, test-first | `feat(rules): pure triage decision rules` |
-| T3 | S12-S14, S22, S26 | Reglas puras del seguimiento, test-first | `feat(rules): pure follow-up decision rules` |
-| T4 | S23 | Los 10 casos de demo con ruta esperada | `test(cases): add ten demo cases` |
-| T5 | S18-S21 | Cliente de Clef: cola, retry 429, timeout | `feat(worker): serialized clef client` |
-| T6 | S17, S21 | Endpoints `/api/triage` y `/api/followup` | `feat(worker): triage and follow-up endpoints` |
-| T7 | S1-S3, S8, S16 | Pantallas de turno y seguimiento | `feat(ui): triage and follow-up screens` |
-| T8 | S9, S15 | Agenda e historial en `localStorage` | `feat(ui): local agenda and history` |
-| T9 | S25 | Script de calibración | `chore(scripts): calibration against real clef` |
-| T10 | S27 | README en español | `docs: add spanish README` |
+| T1 | S17, S22, S27 | Config del proyecto y feature doc | `93da05f` + `631aeaf` |
+| T2 | S4-S7, S22, S26 | Reglas puras del triage, test-first | `0e64d46` |
+| T3 | S12-S14, S22, S26 | Reglas puras del seguimiento, test-first | `c0d1388` |
+| T4 | S23 | Los 10 casos de demo con ruta esperada | `11d0449` |
+| T5 | S18-S21 | Cliente de Clef: cola, retry 429, timeout | `0486e37` |
+| T6 | S17, S21 | Endpoints `/api/triage` y `/api/followup` | `a7fb452` |
+| T7 | S1-S3, S8, S16 | Pantallas de turno y seguimiento | `24ea852` |
+| T8 | S9, S15 | Agenda e historial en `localStorage` | `24ea852` |
+| T9 | S25 | Script de calibración | `51127a1` |
+| T10 | S27 | README en español | `d0c5068` |
 
 ## Log
 
@@ -60,3 +60,8 @@ L4. Decisión del usuario ante L3: «Sigo con todo lo que no necesita Clef» (op
 L5. Decisión de orden de reglas del triage (interpretación propia, el brief no lo fija): emergencia (S4) → override de peluquería (S7) → ambigüedad de servicio (S6) → elección de turno (S5). Seguridad antes que confianza: un pedido de peluquería con señales de salud nunca termina en peluquería, ni siquiera si Clef está poco seguro del servicio.
 L6. Riesgo abierto: `docs/api.md` pide verificar con una llamada real las claves de `probabilities` en `score`. Sin acceso, el parser acepta índices (`"0"`, `"1"`) y etiquetas. Verificar primero cuando aparezca el acceso.
 L7. Node.js no existía en WSL. Instalado con `nvm` (sin sudo): v26.13.1 en `~/.nvm/versions/node/v26.13.1/bin`. Los shells no interactivos necesitan anteponer ese `bin` al `PATH`.
+L8. Bug encontrado al revisar el payload y no por los tests: el Worker mandaba `questions` como lista y `docs/api.md` exige un mapa `id → pregunta`. Corregido con `questionsPayload` y fijado con `test/payload.test.js` (5 tests). Con Clef habilitado, la primera llamada real habría dado 400. Incluido en `a7fb452`.
+L9. Verificación local con `wrangler dev` (no deploy): assets 200, los tres 400 de validación, `/api/nope` 404 JSON, y `/api/triage` y `/api/followup` devolviendo 502 `clef_no_access` desde la API real de NaN. Esa llamada prueba el camino completo salvo el modelo: validación, cliente, `AbortSignal` dentro de workerd, y mapeo de error.
+L10. Identidad git configurada solo en este repo (decisión del usuario): nombre «Fabi», email `236066976+lfdmdeieme07-droid@users.noreply.github.com`. La configuración global queda sin tocar.
+L11. Capturas del README: diferidas por decisión del usuario a después de habilitar Clef, tomadas desde el Chrome de Windows. No se instala navegador en WSL.
+L12. Estado de los tests por commit, verificado en worktrees aislados: `0e64d46` 16 verdes, `c0d1388` 27, `a7fb452` 66, y los dos primeros commits son documentación y scaffolding sin tests.
