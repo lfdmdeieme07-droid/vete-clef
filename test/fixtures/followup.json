@@ -1,0 +1,47 @@
+{
+  "_note": "SYNTHETIC fixtures. Shape taken from docs/api.md of the hackathon repo; these are NOT recorded Clef responses. Replace with real captures once NAN_KEY has access to model 'clef' (see odd/tasks/vete-clef.md, L3 and L6).",
+  "cases": {
+    "guardia": {
+      "model": "clef",
+      "answers": {
+        "red_flags": { "type": "noul", "noul": 0.62 },
+        "worse": { "type": "noul", "noul": 0.71 },
+        "action": {
+          "type": "choice",
+          "choice": "guardia",
+          "probabilities": { "seguir_plan": 0.04, "consultar": 0.15, "guardia": 0.81 },
+          "confidence": 0.79
+        }
+      },
+      "usage": { "input_tokens": 168, "output_tokens": 0 }
+    },
+    "consultar": {
+      "model": "clef",
+      "answers": {
+        "red_flags": { "type": "noul", "noul": 0.11 },
+        "worse": { "type": "noul", "noul": 0.68 },
+        "action": {
+          "type": "choice",
+          "choice": "consultar",
+          "probabilities": { "seguir_plan": 0.33, "consultar": 0.62, "guardia": 0.05 },
+          "confidence": 0.55
+        }
+      },
+      "usage": { "input_tokens": 171, "output_tokens": 0 }
+    },
+    "seguir": {
+      "model": "clef",
+      "answers": {
+        "red_flags": { "type": "noul", "noul": 0.04 },
+        "worse": { "type": "noul", "noul": 0.18 },
+        "action": {
+          "type": "choice",
+          "choice": "seguir_plan",
+          "probabilities": { "seguir_plan": 0.9, "consultar": 0.08, "guardia": 0.02 },
+          "confidence": 0.85
+        }
+      },
+      "usage": { "input_tokens": 165, "output_tokens": 0 }
+    }
+  }
+}
