@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta
+      name="description"
+      content="Vete Clef: Clef decide si tu mascota necesita guardia, un turno en la clínica o seguir el plan del veterinario."
+    />
+    <title>Vete Clef · turnos y seguimiento</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Ir al contenido</a>
+
+    <header class="site-header">
+      <p class="brand">Vete Clef</p>
+      <p class="tagline">
+        Clef decide adónde va tu consulta: guardia, turno en la clínica o seguir el plan del veterinario.
+      </p>
+    </header>
+
+    <nav class="tabs" aria-label="Pantallas">
+      <div class="tablist" role="tablist" aria-label="Pantallas" id="tablist">
+        <button
+          class="tab"
+          type="button"
+          role="tab"
+          id="tab-triage"
+          aria-controls="panel-triage"
+          aria-selected="true"
+          tabindex="0"
+        >
+          Pedir turno
+        </button>
+        <button
+          class="tab"
+          type="button"
+          role="tab"
+          id="tab-followup"
+          aria-controls="panel-followup"
+          aria-selected="false"
+          tabindex="-1"
+        >
+          Seguimiento
+        </button>
+      </div>
+    </nav>
+
+    <main id="main">
+      <section
+        class="panel"
+        id="panel-triage"
+        role="tabpanel"
+        aria-labelledby="tab-triage"
+        tabindex="-1"
+      >
+        <h1 class="panel-title">Pedir turno</h1>
+        <p class="lead">
+          Contale a Clef qué le pasa a tu mascota. Clef decide si hay que ir a la guardia o qué turno reservar.
+        </p>
+
+        <form class="card" id="triage-form" novalidate>
+          <fieldset class="field">
+            <legend class="label">Especie</legend>
+            <div class="choices">
+              <label class="choice">
+                <input type="radio" name="species" value="perro" />
+                <span>Perro</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="species" value="gato" />
+                <span>Gato</span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="species" value="otro" />
+                <span>Otro</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label class="label" for="triage-age">Edad (opcional)</label>
+            <input
+              class="input"
+              id="triage-age"
+              name="age"
+              type="text"
+              autocomplete="off"
+              maxlength="60"
+              placeholder="3 años, 45 días…"
+            />
+          </div>
+
+          <div class="field">
+            <label class="label" for="triage-message">¿Qué le pasa?</label>
+            <textarea
+              class="input"
+              id="triage-message"
+              name="message"
+              rows="4"
+              maxlength="4000"
+              placeholder="Escribí lo que observás, con tus palabras."
+            ></textarea>
+            <p class="hint">No escribas tus datos personales: no los pedimos ni los guardamos.</p>
+          </div>
+
+          <p class="notice" id="triage-notice" role="alert" hidden></p>
+
+          <button class="button" id="triage-submit" type="submit">Ver qué decide Clef</button>
+        </form>
+
+        <div class="result" id="triage-result" role="status" aria-live="polite">
+          <p class="hint">Todavía no consultaste a Clef.</p>
+        </div>
+
+        <section class="card" aria-labelledby="agenda-title">
+          <h2 class="card-title" id="agenda-title">Agenda de demo</h2>
+          <p class="hint">
+            Turnos falsos de esta semana, guardados solo en este navegador. No se piden datos personales.
+          </p>
+          <div class="agenda" id="agenda-list"></div>
+        </section>
+      </section>
+
+      <section
+        class="panel"
+        id="panel-followup"
+        role="tabpanel"
+        aria-labelledby="tab-followup"
+        tabindex="-1"
+        hidden
+      >
+        <h1 class="panel-title">Seguimiento</h1>
+        <p class="lead">
+          Día por día: contale a Clef cómo sigue tu mascota y el plan que te dio el veterinario. Clef decide si
+          seguís igual, si llamás hoy o si vas a la guardia.
+        </p>
+
+        <form class="card" id="followup-form" novalidate>
+          <div class="field">
+            <label class="label" for="followup-plan">El plan de tu veterinario</label>
+            <textarea
+              class="input"
+              id="followup-plan"
+              name="plan"
+              rows="4"
+              maxlength="4000"
+              placeholder="Copialo tal cual te lo dio el veterinario."
+            ></textarea>
+          </div>
+
+          <div class="field">
+            <label class="label" for="followup-day">Día del plan</label>
+            <input
+              class="input"
+              id="followup-day"
+              name="day"
+              type="number"
+              min="1"
+              max="365"
+              step="1"
+              inputmode="numeric"
+              value="1"
+            />
+          </div>
+
+          <div class="field">
+            <label class="label" for="followup-report">Cómo está hoy</label>
+            <textarea
+              class="input"
+              id="followup-report"
+              name="report"
+              rows="4"
+              maxlength="4000"
+              placeholder="Escribí lo que observaste hoy, con tus palabras."
+            ></textarea>
+            <p class="hint">No escribas tus datos personales: no los pedimos ni los guardamos.</p>
+          </div>
+
+          <p class="notice" id="followup-notice" role="alert" hidden></p>
+
+          <button class="button" id="followup-submit" type="submit">Ver qué decide Clef hoy</button>
+        </form>
+
+        <div class="result" id="followup-result" role="status" aria-live="polite">
+          <p class="hint">Todavía no consultaste el seguimiento de hoy.</p>
+        </div>
+
+        <section class="card" aria-labelledby="history-title">
+          <h2 class="card-title" id="history-title">Historial día por día</h2>
+          <p class="hint">
+            Cada día consultado queda guardado en este navegador, del más viejo al más nuevo.
+          </p>
+          <ol class="history" id="followup-history"></ol>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p class="safety">
+        Esta herramienta no reemplaza al veterinario. No da diagnósticos ni dosis. Ante la duda, consultá.
+      </p>
+    </footer>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
