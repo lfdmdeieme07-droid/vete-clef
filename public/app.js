@@ -883,7 +883,7 @@ async function handleTriageSubmit(event) {
   setBusy(button, true, TRIAGE_BUTTON_LABEL);
   container.setAttribute('aria-busy', 'true');
   const loading = element('p', 'loading', 'Clef está pensando.');
-  const loadingNote = element('span', 'loading-note', 'Clef está atendiendo otra consulta, esperá unos segundos.');
+  const loadingNote = element('span', 'loading-note', 'Puede tardar unos segundos; si hay otras consultas en fila, un poco más.');
   loading.append(loadingNote);
   fill(container, [loading]);
 
@@ -933,7 +933,7 @@ async function handleFollowupSubmit(event) {
   setBusy(button, true, FOLLOWUP_BUTTON_LABEL);
   container.setAttribute('aria-busy', 'true');
   const loading = element('p', 'loading', 'Clef está pensando.');
-  const loadingNote = element('span', 'loading-note', 'Clef está atendiendo otra consulta, esperá unos segundos.');
+  const loadingNote = element('span', 'loading-note', 'Puede tardar unos segundos; si hay otras consultas en fila, un poco más.');
   loading.append(loadingNote);
   fill(container, [loading]);
 
