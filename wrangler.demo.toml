@@ -1,0 +1,22 @@
+# LOCAL DEMO ONLY — not part of the deliverable.
+#
+# Clef access is still blocked, so the real Worker answers 502 on every request
+# and neither the flow can be walked through nor the README screenshots taken.
+# This config swaps the Clef round trip for the synthetic answers in
+# dev/demo-answers.json; everything else (validation, the pure decision rules,
+# the screens, the agenda, the history) is the real code.
+#
+# Run:  npx wrangler dev --config wrangler.demo.toml
+#
+# Delete this file, dev/worker-demo.js and dev/demo-answers.json before
+# delivery. Never deploy it: `name` is deliberately different so a mistake
+# cannot overwrite the real Worker.
+
+name = "vete-clef-demo"
+main = "dev/worker-demo.js"
+compatibility_date = "2026-11-13"
+
+[assets]
+directory = "public"
+binding = "ASSETS"
+run_worker_first = true
