@@ -138,6 +138,7 @@ Más allá de los 10 casos del brief, se corrieron 20 consultas con redacciones 
 - **Pesa la edad del cachorro**: a cantidad fija (cuadradito), 2 meses 18 %, 2 años 5 %, 6 años 3 %.
 - **Cantidad desconocida → prudencia**: «no me doy cuenta cuánto comió» → 94 %, guardia.
 - **Límite documentado**: la combinación de antecedente digestivo reciente + ingesta leve bajó la probabilidad de emergencia respecto del cachorro sano (3,9 % frente a 18,4 %), un anclaje del contexto gastro. Igual deriva a consulta, y queda como comportamiento a reportar y revisar en la capa de reglas con criterio veterinario.
+- **Sin opción "no hace falta turno"**: una consulta inofensiva («se comió un pedazo de pan, ¿le hace algo?») da emergencia 0 %, pero termina en consulta porque `service` no tiene una salida para «no parece necesario un turno», y la app no puede afirmar que algo es inofensivo sin dar consejo médico. Ante la duda deriva a consulta, el error prudente. Mejora para una próxima versión: sumar esa opción a `service` con su criterio y recalibrar.
 
 Estas observaciones están registradas con sus números completos en `odd/tasks/vete-clef.md` (L20 y L21).
 
