@@ -60,7 +60,7 @@ Los umbrales viven en un solo objeto (`src/config.js`) para poder calibrarlos:
 
 | Regla | Umbral | Decisión |
 | --- | --- | --- |
-| Emergencia | `emergency >= 0.20` | Pantalla roja, sin turno |
+| Emergencia | `emergency >= 0.30` | Pantalla roja, sin turno |
 | Urgencia | `timing.score >= 2.5` | Ofrecer primero el turno de hoy |
 | Duda de servicio | `service.confidence < 0.5` | Mostrar los dos más probables |
 | Peluquería con salud | `peluqueria` y `timing.score >= 1.5` | Pasa a consulta, con explicación |
