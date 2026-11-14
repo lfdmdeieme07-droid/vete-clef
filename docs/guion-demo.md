@@ -18,9 +18,13 @@ veterinario, **que la consulta deja rastro**.
 > «Un cachorro de 45 días con diarrea. El veterinario indicó arroz tres días y
 > después ir agregando alimento. El plan estaba bien. El problema era otro: el
 > dueño, día por día, no sabía si seguir con el plan o llamar. Dudar de más
-> también es un riesgo.»
+> también es un riesgo. Y lo sé porque fui ese dueño: consulté un chatbot
+> genérico cada día y terminé con nueve páginas de texto sin una sola decisión
+> estructurada. Esta app es lo que yo necesitaba esa semana.»
 
-No expliques la app todavía. Que el problema quede claro primero.
+No expliques la app todavía. Que el problema quede claro primero. La frase «fui
+ese dueño» es el gancho más fuerte de toda la demo: convierte un caso hipotético
+en algo vivido, con evidencia (la conversación real, guardada fuera del repo).
 
 ## 2. Qué es Clef (20 s)
 
