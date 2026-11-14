@@ -126,6 +126,7 @@ Estas observaciones están registradas con sus números completos en `odd/tasks/
 
 ## Estado
 
+- `TAREA.md` es el brief del hackathon (la consigna vinculante) y `odd/` el cuaderno de trabajo del agente: especificas, decisiones y evidencia numeradas (L1-L21).
 - Reglas, endpoints, UI, agenda y tests: listos y verificados en local.
 - **Clef: activo.** Calibrado contra el modelo real el 14/11: los diez casos de `cases/cases.json` con la ruta esperada, con los umbrales ajustados por evidencia (`scripts/calibrate.mjs`). Las capturas de arriba son decisiones reales de Clef.
 - **Capturas: reales**, tomadas contra el modelo en vivo, sin respuestas de ejemplo.
