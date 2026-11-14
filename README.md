@@ -33,7 +33,7 @@ Tomadas en un iPhone 14 emulado (390×844). **Están en modo demo**: Clef todav�
 
 **Pedir turno** — la entrada y la regla de emergencia:
 
-<img src="docs/capturas/01-pedir-turno.png" width="260" alt="Pantalla Pedir turno con especie, edad y descripción del problema"> <img src="docs/capturas/02-guardia.png" width="260" alt="Pantalla roja: Andá ya a la guardia veterinaria, emergencia 87 %">
+<img src="docs/capturas/01-pedir-turno.png" width="260" alt="Pantalla Pedir turno con especie, edad y descripción del problema"> <img src="docs/capturas/02-guardia.png" width="260" alt="Pantalla roja: Andá ya a la guardia veterinaria, emergencia 98 %">
 
 **Turno reservado** — las probabilidades de Clef a la vista, y el seguimiento con señales de alarma:
 
@@ -42,6 +42,8 @@ Tomadas en un iPhone 14 emulado (390×844). **Están en modo demo**: Clef todav�
 **Historial** — cada día queda guardado con la decisión que tomó Clef:
 
 <img src="docs/capturas/05-historial.png" width="300" alt="Historial día por día con la ruta decidida en cada jornada">
+
+Capturas tomadas contra el **Clef real** (llamadas en vivo, sin respuestas de ejemplo).
 
 ## Cómo decide Clef
 

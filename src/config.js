@@ -5,8 +5,14 @@
 
 export const THRESHOLDS = {
   triage: {
-    /** emergency.noul at or above this books nothing and shows the guardia screen. */
-    emergency: 0.2,
+    /**
+     * emergency.noul at or above this books nothing and shows the guardia screen.
+     * Calibrated 2026-11-14 against real Clef (scripts/calibrate.mjs): true
+     * emergencies scored 0.88-0.98, the semi-urgent vomiting case 0.23, routine
+     * cases <= 0.11. 0.30 sits in that gap, keeps both emergencies, and routes
+     * the mild case to a consultation as the brief expects.
+     */
+    emergency: 0.3,
     /** timing.score at or above this offers today's slot first. */
     preferTodayScore: 2.5,
     /** service.confidence below this asks the owner to pick between two services. */

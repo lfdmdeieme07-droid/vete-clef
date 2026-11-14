@@ -41,18 +41,18 @@ test('S4: an emergency goes straight to the guardia screen and books nothing', (
   assert.equal(result.options, null);
 });
 
-test('S4 boundary: exactly 0.20 is an emergency', () => {
+test('S4 boundary: exactly 0.30 is an emergency', () => {
   const result = decideTriage({
-    answers: answersOf({ emergency: 0.2, choice: 'consulta', confidence: 0.9, score: 2 }),
+    answers: answersOf({ emergency: 0.3, choice: 'consulta', confidence: 0.9, score: 2 }),
   });
 
   assert.equal(result.route, 'guardia');
   assert.equal(result.service, null);
 });
 
-test('S4 boundary: 0.19 is not an emergency and still books', () => {
+test('S4 boundary: 0.29 is not an emergency and still books', () => {
   const result = decideTriage({
-    answers: answersOf({ emergency: 0.19, choice: 'consulta', confidence: 0.9, score: 2 }),
+    answers: answersOf({ emergency: 0.29, choice: 'consulta', confidence: 0.9, score: 2 }),
   });
 
   assert.equal(result.route, 'booking');

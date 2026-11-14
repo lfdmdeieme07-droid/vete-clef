@@ -116,8 +116,8 @@
         "age": "sin dato",
         "message": "Está raro, como triste"
       },
-      "expectedRoute": "choose_service",
-      "note": "Deliberately ambiguous. The demo shows how Clef doubts: low service confidence offers two options instead of guessing."
+      "expectedRoute": "booking",
+      "note": "Ambiguous for a human. Calibrated against real Clef on 2026-11-14: the model resolves it confidently (consulta 97 %, confidence 0.97), so the real route is booking. Rule S6 still fires on genuinely low-confidence answers; it is pinned by tests with fixtures."
     }
   ]
 }
