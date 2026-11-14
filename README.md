@@ -116,5 +116,5 @@ El script corre los diez casos de `cases/cases.json` y muestra las probabilidade
 ## Estado
 
 - Reglas, endpoints, UI, agenda y tests: listos y verificados en local.
-- **Acceso a Clef: pendiente.** La key actual de NaN responde bien para los modelos de chat, pero `model: "clef"` devuelve `404 model_not_found`. Hasta que el modelo esté habilitado en la cuenta, la app responde con «La key de NaN no tiene acceso al modelo Clef.» y la calibración no puede correr.
-- **Capturas: listas**, tomadas en modo demo (ver arriba). Se regeneran cuando Clef esté habilitado para que muestren la corrida real.
+- **Clef: activo.** Calibrado contra el modelo real el 14/11: los diez casos de `cases/cases.json` con la ruta esperada, con los umbrales ajustados por evidencia (`scripts/calibrate.mjs`). Las capturas de arriba son decisiones reales de Clef.
+- **Capturas: reales**, tomadas contra el modelo en vivo, sin respuestas de ejemplo.
