@@ -116,7 +116,7 @@ async function readJson(response) {
  */
 export function createClefClient({
   key,
-  fetchImpl = fetch,
+  fetchImpl,
   thresholds = THRESHOLDS.limits,
   sleep = defaultSleep,
 }) {
@@ -124,11 +124,14 @@ export function createClefClient({
 
   /**
    * Sends one request. Only the status code is inspected, so no upstream text
-   * can end up in a thrown error.
+   * can end up in a thrown error. `fetch` is resolved at call time, not at
+   * client creation: a long-lived shared client must keep following the
+   * current global fetch (tests stub it per test; workerd keeps it stable).
    */
   async function sendOnce(state, questions) {
+    const doFetch = fetchImpl ?? ((...args) => globalThis.fetch(...args));
     try {
-      return await fetchImpl(ENDPOINT, {
+      return await doFetch(ENDPOINT, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${key}`,

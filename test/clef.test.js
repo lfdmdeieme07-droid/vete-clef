@@ -111,6 +111,23 @@ test('S20: a failed ask does not block the next one in the queue', async () => {
   assert.deepEqual(fake.log, ['start:1', 'end:1', 'start:2', 'end:2']);
 });
 
+test('the client queue serializes concurrent asks: never two calls in flight', async () => {
+  // Dos dueños preguntando al mismo tiempo: la cola del cliente debe correrlas
+  // una despues de la otra, porque Clef solo permite una peticion en vuelo.
+  const fake = fakeFetch(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 25));
+    return jsonResponse(okBody);
+  });
+  const client = clientWith({ fetchImpl: fake.fetchImpl });
+
+  const [a, b] = await Promise.all([client.ask(STATE, QUESTIONS), client.ask(STATE, QUESTIONS)]);
+
+  assert.deepEqual(a, okBody);
+  assert.deepEqual(b, okBody);
+  assert.equal(fake.maxInFlight, 1);
+  assert.deepEqual(fake.log, ['start:1', 'end:1', 'start:2', 'end:2']);
+});
+
 test('S20: a 429 is retried once after 1000 ms and the retry resolves', async () => {
   const fake = fakeFetch(async (index) =>
     index === 1 ? jsonResponse({ error: { code: 'rate_limited' } }, 429) : jsonResponse(okBody),

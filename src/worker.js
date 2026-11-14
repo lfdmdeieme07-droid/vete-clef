@@ -193,13 +193,30 @@ function nanKey(env) {
 }
 
 /**
+ * One Clef client per isolate, created on first use and reused. The queue in
+ * createClefClient only serializes calls that share the client: a per-request
+ * client would let two simultaneous users put two calls in flight, which Clef
+ * forbids.
+ */
+let sharedClient = null;
+let sharedClientKey = null;
+
+function sharedClefClient(key) {
+  if (sharedClient === null || sharedClientKey !== key) {
+    sharedClient = createClefClient({ key });
+    sharedClientKey = key;
+  }
+  return sharedClient;
+}
+
+/**
  * One Clef round trip. A Clef failure comes back as a ready JSON response, so
  * both endpoints answer with the same friendly 502 (S20).
  * @returns {Promise<{ ok: true, answers: any } | { ok: false, response: Response }>}
  */
 async function askClef(key, state, questions) {
   try {
-    const { answers } = await createClefClient({ key }).ask(state, questions);
+    const { answers } = await sharedClefClient(key).ask(state, questions);
     return { ok: true, answers };
   } catch (error) {
     if (!(error instanceof ClefError)) throw error;
