@@ -1,4 +1,5 @@
 import { SERVICES, thresholdsFor } from './config.js';
+import { requireAnswerShape } from './clef.js';
 
 /**
  * Normalizes `timing.probabilities` to an index-keyed map.
@@ -51,6 +52,14 @@ function topServices(probabilities, exclude, count) {
  */
 export function decideTriage({ answers, config }) {
   const thresholds = thresholdsFor('triage', config);
+
+  // Fail closed: a malformed or partial Clef answer is an error, not a zero.
+  // Without this, answers {} would read every field as 0 and land on booking.
+  requireAnswerShape(answers, {
+    emergency: { numbers: ['noul'] },
+    service: { strings: ['choice'], numbers: ['confidence'], numberMaps: ['probabilities'] },
+    timing: { numbers: ['score'], numberMaps: ['probabilities'] },
+  });
 
   const emergency = answers?.emergency?.noul ?? 0;
   const chosen = answers?.service?.choice ?? null;

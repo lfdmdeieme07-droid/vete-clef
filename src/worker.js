@@ -208,6 +208,23 @@ async function askClef(key, state, questions) {
   }
 }
 
+/**
+ * Runs the pure decision rules on Clef's answers. The rules fail closed on a
+ * malformed answer (ClefError clef_failed), which maps to the same friendly
+ * 502 as any other upstream failure: an omission never becomes a decision.
+ * @param {(input: { answers: any }) => ReturnType<typeof decideTriage>} decide
+ * @param {any} answers
+ */
+function decideResponse(decide, answers) {
+  try {
+    return json(decide({ answers }));
+  } catch (error) {
+    if (!(error instanceof ClefError)) throw error;
+    const mapped = clefErrorResponse(error);
+    return json(mapped.body, mapped.status);
+  }
+}
+
 async function handleTriage(request, env) {
   const input = validateTriageInput(await parseBody(request));
   if (!input.ok) return errorResponse(400, 'invalid_input', input.message);
@@ -217,7 +234,7 @@ async function handleTriage(request, env) {
 
   const asked = await askClef(key, buildTriageState(input.value), questionsPayload(TRIAGE_QUESTIONS));
   if (!asked.ok) return asked.response;
-  return json(decideTriage({ answers: asked.answers }));
+  return decideResponse(decideTriage, asked.answers);
 }
 
 async function handleFollowup(request, env) {
@@ -233,7 +250,7 @@ async function handleFollowup(request, env) {
     questionsPayload(FOLLOWUP_QUESTIONS),
   );
   if (!asked.ok) return asked.response;
-  return json(decideFollowup({ answers: asked.answers }));
+  return decideResponse(decideFollowup, asked.answers);
 }
 
 /** A Map, so a path such as `/constructor` cannot reach Object.prototype. */

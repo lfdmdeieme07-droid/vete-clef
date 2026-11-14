@@ -1,4 +1,5 @@
 import { thresholdsFor } from './config.js';
+import { requireAnswerShape, requireNumberKeys } from './clef.js';
 
 /**
  * The follow-up decision, as pure data. No copy, no network, no side effects.
@@ -9,6 +10,15 @@ import { thresholdsFor } from './config.js';
  */
 export function decideFollowup({ answers, config }) {
   const thresholds = thresholdsFor('followup', config);
+
+  // Fail closed: an omission must not read as a calm day. answers {} would
+  // otherwise fall through every trigger and land on seguir_plan.
+  requireAnswerShape(answers, {
+    red_flags: { numbers: ['noul'] },
+    worse: { numbers: ['noul'] },
+    action: { strings: ['choice'], numberMaps: ['probabilities'] },
+  });
+  requireNumberKeys(answers?.action?.probabilities, ['seguir_plan', 'consultar', 'guardia']);
 
   const redFlags = answers?.red_flags?.noul ?? 0;
   const worse = answers?.worse?.noul ?? 0;

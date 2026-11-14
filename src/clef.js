@@ -28,6 +28,64 @@ export class ClefError extends Error {
   }
 }
 
+/**
+ * Fail closed: Clef's answers are data, never defaults. A missing or
+ * non-numeric field is a malformed upstream response, not a zero — the
+ * decision rules refuse to decide on one instead of inventing a route from
+ * an omission. Every violation throws ClefError('clef_failed'), which the
+ * Worker maps to the same friendly 502 as any other upstream failure.
+ *
+ * @param {Record<string, any>} answers the Clef `answers` map
+ * @param {Record<string, { numbers?: string[], strings?: string[], numberMaps?: string[] }>} shape
+ *   per question id: the numeric fields, non-empty string fields and
+ *   object-of-finite-numbers fields the rules are about to consume
+ */
+export function requireAnswerShape(answers, shape) {
+  for (const [id, spec] of Object.entries(shape)) {
+    const answer = answers?.[id];
+    if (typeof answer !== 'object' || answer === null || Array.isArray(answer)) {
+      throw new ClefError('clef_failed');
+    }
+    for (const field of spec.strings ?? []) {
+      if (typeof answer[field] !== 'string' || answer[field] === '') {
+        throw new ClefError('clef_failed');
+      }
+    }
+    for (const field of spec.numbers ?? []) {
+      if (typeof answer[field] !== 'number' || !Number.isFinite(answer[field])) {
+        throw new ClefError('clef_failed');
+      }
+    }
+    for (const field of spec.numberMaps ?? []) {
+      const map = answer[field];
+      if (typeof map !== 'object' || map === null || Array.isArray(map)) {
+        throw new ClefError('clef_failed');
+      }
+      for (const value of Object.values(map)) {
+        if (typeof value !== 'number' || !Number.isFinite(value)) {
+          throw new ClefError('clef_failed');
+        }
+      }
+    }
+  }
+  return answers;
+}
+
+/**
+ * Same fail-closed rule for individual keys inside a probability map: a
+ * missing `guardia` must not read as a 0 % that silences the trigger.
+ * @param {Record<string, any>} map
+ * @param {string[]} keys
+ */
+export function requireNumberKeys(map, keys) {
+  for (const key of keys) {
+    const value = map?.[key];
+    if (typeof value !== 'number' || !Number.isFinite(value)) {
+      throw new ClefError('clef_failed');
+    }
+  }
+}
+
 const defaultSleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
