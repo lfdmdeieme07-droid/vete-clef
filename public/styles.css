@@ -356,6 +356,10 @@ textarea.input {
 .callout-danger {
   background: var(--danger-soft);
   border-color: var(--danger);
+  /* S4 demo beat: the emergency screen must be unmistakable, also in a
+     screenshot. A thicker frame and a halo do that without changing text. */
+  border-width: 2px;
+  box-shadow: 0 0 0 4px var(--danger-soft);
 }
 
 .callout-danger .callout-badge {
@@ -365,6 +369,8 @@ textarea.input {
 
 .callout-danger .callout-title {
   color: var(--danger);
+  font-size: 1.45rem;
+  line-height: 1.25;
 }
 
 .callout-warn {
@@ -411,11 +417,16 @@ textarea.input {
 
 .override {
   margin: 0 0 0.75rem;
-  padding: 0.65rem 0.75rem;
-  background: var(--surface);
-  border-left: 3px solid var(--accent);
+  padding: 0.75rem 0.85rem;
+  background: var(--danger-soft);
+  border: 1px solid var(--danger);
+  border-left-width: 4px;
   border-radius: 8px;
   font-size: 0.9375rem;
+}
+
+.override strong {
+  color: var(--danger);
 }
 
 .plan-echo {
@@ -497,7 +508,7 @@ textarea.input {
 .prob-bar {
   grid-column: 1 / -1;
   display: block;
-  height: 0.5rem;
+  height: 0.65rem;
   background: var(--line);
   border-radius: 999px;
   overflow: hidden;
@@ -508,6 +519,13 @@ textarea.input {
   height: 100%;
   background: var(--accent);
   border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+/* S8 demo beat: magnitude reads at a glance — the dominant bar keeps the
+   accent, the rest fall back to the muted line color. */
+.prob-fill.is-low {
+  background: var(--line);
 }
 
 /* -------------------------------------------------------------------- agenda */

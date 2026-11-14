@@ -384,12 +384,19 @@ function probabilityList(title, rows) {
   const section = element('section', 'probs');
   section.append(element('h3', 'probs-title', title));
   const list = element('ul', 'probs-list');
+  // S8 demo beat: the dominant bar keeps the accent; everything below a
+  // quarter falls back to the muted track color, so magnitude reads at a
+  // glance instead of ten identical bars.
+  const top = Math.max(0, ...rows.map((row) => row.percent));
   for (const row of rows) {
     const item = element('li', 'prob');
     const bar = element('span', 'prob-bar');
     bar.setAttribute('aria-hidden', 'true');
     const fillBar = element('span', 'prob-fill');
     fillBar.style.width = `${row.percent}%`;
+    if (row.percent < 25 || (top >= 25 && row.percent < top * 0.4)) {
+      fillBar.classList.add('is-low');
+    }
     bar.append(fillBar);
     item.append(element('span', 'prob-label', row.label));
     item.append(element('span', 'prob-value', `${row.percent} %`));
@@ -491,11 +498,16 @@ function followupProbabilityNodes(probabilities) {
 function overrideExplanation(overridden) {
   const from = SERVICE_LABEL.get(overridden?.from) ?? 'ese servicio';
   const to = SERVICE_LABEL.get(overridden?.to) ?? 'consulta';
-  return element(
-    'p',
-    'override',
-    `Clef cambió el servicio: ${from} → ${to}. Un pedido de peluquería con señales de salud pasa siempre a consulta con el veterinario.`,
+  const note = element('p', 'override');
+  // S7 demo beat: the override is the strongest product statement the app
+  // makes — the model said one thing and the safety rule won. It gets the
+  // emphasis, in its own words.
+  const strong = element('strong', null, `Clef cambió el servicio: ${from} → ${to}.`);
+  note.append(
+    strong,
+    ' Un pedido de peluquería con señales de salud pasa siempre a consulta con el veterinario.',
   );
+  return note;
 }
 
 function bookingNodes({ serviceId, booking, preferToday, overridden, probabilities, chosenByOwner }) {
@@ -870,7 +882,10 @@ async function handleTriageSubmit(event) {
   const container = byId('triage-result');
   setBusy(button, true, TRIAGE_BUTTON_LABEL);
   container.setAttribute('aria-busy', 'true');
-  fill(container, [element('p', 'loading', 'Clef está pensando. Puede tardar unos segundos.')]);
+  const loading = element('p', 'loading', 'Clef está pensando.');
+  const loadingNote = element('span', 'loading-note', 'Puede tardar unos segundos.');
+  loading.append(loadingNote);
+  fill(container, [loading]);
 
   try {
     const payload = await postJson('/api/triage', { species, age, message });
@@ -917,7 +932,10 @@ async function handleFollowupSubmit(event) {
   const container = byId('followup-result');
   setBusy(button, true, FOLLOWUP_BUTTON_LABEL);
   container.setAttribute('aria-busy', 'true');
-  fill(container, [element('p', 'loading', 'Clef está pensando. Puede tardar unos segundos.')]);
+  const loading = element('p', 'loading', 'Clef está pensando.');
+  const loadingNote = element('span', 'loading-note', 'Puede tardar unos segundos.');
+  loading.append(loadingNote);
+  fill(container, [loading]);
 
   try {
     const payload = await postJson('/api/followup', { plan, day, report });
