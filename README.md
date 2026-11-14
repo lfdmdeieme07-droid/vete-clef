@@ -25,6 +25,22 @@ Dos pantallas, en español, pensadas para el teléfono.
 
 **Seguimiento.** El dueño pega el plan del veterinario, el número de día y cómo ve a la mascota hoy. Clef responde si hay señales de alarma, si está empeorando y qué conviene hacer: «Guardia ya», «Llamá a tu veterinario hoy» o «Seguí el plan de tu veterinario». El plan se repite tal como lo escribió el dueño: la app nunca agrega consejo médico propio. Cada día queda guardado para ver la evolución.
 
+## Capturas
+
+Tomadas en un iPhone 14 emulado (390×844). **Están en modo demo**: Clef todavía no está habilitado en esta cuenta, así que el Worker respondió con un juego de respuestas sintéticas para poder recorrer la app entera. La validación, las reglas de decisión y las pantallas son el código real; lo único reemplazado es el viaje a Clef. Se regeneran en cuanto el modelo esté disponible, para que muestren la corrida real.
+
+**Pedir turno** — la entrada y la regla de emergencia:
+
+<img src="docs/capturas/01-pedir-turno.png" width="260" alt="Pantalla Pedir turno con especie, edad y descripción del problema"> <img src="docs/capturas/02-guardia.png" width="260" alt="Pantalla roja: Andá ya a la guardia veterinaria, emergencia 87 %">
+
+**Turno reservado** — las probabilidades de Clef a la vista, y el seguimiento con señales de alarma:
+
+<img src="docs/capturas/03-turno-reservado.png" width="260" alt="Turno reservado con las probabilidades de Clef en pantalla"> <img src="docs/capturas/04-seguimiento-guardia.png" width="260" alt="Seguimiento día 3: Guardia ya">
+
+**Historial** — cada día queda guardado con la decisión que tomó Clef:
+
+<img src="docs/capturas/05-historial.png" width="300" alt="Historial día por día con la ruta decidida en cada jornada">
+
 ## Cómo decide Clef
 
 Cada pantalla hace **una sola petición** a Clef (`POST https://api.nan.builders/v1/systemone`, `model: "clef"`) con tres preguntas tipadas.
@@ -97,4 +113,4 @@ El script corre los diez casos de `cases/cases.json` y muestra las probabilidade
 
 - Reglas, endpoints, UI, agenda y tests: listos y verificados en local.
 - **Acceso a Clef: pendiente.** La key actual de NaN responde bien para los modelos de chat, pero `model: "clef"` devuelve `404 model_not_found`. Hasta que el modelo esté habilitado en la cuenta, la app responde con «La key de NaN no tiene acceso al modelo Clef.» y la calibración no puede correr.
-- **Capturas: pendientes** de un navegador; se agregan acá antes de publicar el repo.
+- **Capturas: listas**, tomadas en modo demo (ver arriba). Se regeneran cuando Clef esté habilitado para que muestren la corrida real.
