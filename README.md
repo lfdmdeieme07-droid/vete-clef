@@ -101,7 +101,7 @@ npm test
 
 ## Tests y calibración
 
-`npm test` corre 66 tests con `node --test`, sin red. Las reglas se escribieron test-first y los fixtures están marcados como **sintéticos**: tienen la forma que documenta la API, pero no son respuestas grabadas de Clef.
+`npm test` corre 77 tests con `node --test`, sin red. Las reglas se escribieron test-first y los fixtures están marcados como **sintéticos**: tienen la forma que documenta la API, pero no son respuestas grabadas de Clef.
 
 Para calibrar los umbrales contra el Clef real, en serie y a mano:
 
@@ -118,15 +118,15 @@ Más allá de los 10 casos del brief, se corrieron 20 consultas con redacciones 
 - **Determinista**: la misma consulta produce exactamente la misma probabilidad en corridas repetidas.
 - **Robusto a la redacción**: la misma urgencia escrita formal y escrita casual («hola como estas... no le va a hacer nada no?») da 97 % y 92 %, misma decisión.
 - **Distingue la cantidad ingerida**: barra entera 92-98 %, mitad 96 %, cuadradito chico 18 % (→ consulta), trocito de piso en un adulto 3 %.
-- **Pesa la edad del cachorro**: a dosis fija (cuadradito), 2 meses 18 %, 2 años 5 %, 6 años 3 %.
+- **Pesa la edad del cachorro**: a cantidad fija (cuadradito), 2 meses 18 %, 2 años 5 %, 6 años 3 %.
 - **Cantidad desconocida → prudencia**: «no me doy cuenta cuánto comió» → 94 %, guardia.
-- **Límite documentado**: la combinación de antecedente digestivo reciente + ingesta leve bajó la probabilidad de emergencia respecto del cachorro sano (3,9 % frente a 18,4 %), un anclaje del contexto gastro. Igual deriva a consulta, y se reportó como comportamiento a revisar en la capa de reglas con criterio veterinario.
+- **Límite documentado**: la combinación de antecedente digestivo reciente + ingesta leve bajó la probabilidad de emergencia respecto del cachorro sano (3,9 % frente a 18,4 %), un anclaje del contexto gastro. Igual deriva a consulta, y queda como comportamiento a reportar y revisar en la capa de reglas con criterio veterinario.
 
 Estas observaciones están registradas con sus números completos en `odd/tasks/vete-clef.md` (L20 y L21).
 
 ## Estado
 
-- `TAREA.md` es el brief del hackathon (la consigna vinculante) y `odd/` el cuaderno de trabajo del agente: especificas, decisiones y evidencia numeradas (L1-L21).
+- `TAREA.md` es el brief del hackathon (la consigna vinculante) y `odd/` el cuaderno de trabajo del agente: especificaciones, decisiones y evidencia numeradas (L1-L21).
 - Reglas, endpoints, UI, agenda y tests: listos y verificados en local.
 - **Clef: activo.** Calibrado contra el modelo real el 14/11: los diez casos de `cases/cases.json` con la ruta esperada, con los umbrales ajustados por evidencia (`scripts/calibrate.mjs`). Las capturas de arriba son decisiones reales de Clef.
 - **Capturas: reales**, tomadas contra el modelo en vivo, sin respuestas de ejemplo.
