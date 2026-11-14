@@ -29,17 +29,34 @@ Dos pantallas, en español, pensadas para el teléfono.
 
 ## Capturas
 
-**Pedir turno** — la entrada y la regla de emergencia:
-
-<img src="docs/capturas/01-pedir-turno.png" width="260" alt="Pantalla Pedir turno con especie, edad y descripción del problema"> <img src="docs/capturas/02-guardia.png" width="260" alt="Pantalla roja: Andá ya a la guardia veterinaria, emergencia 98 %">
-
-**Turno reservado** — las probabilidades de Clef a la vista, y el seguimiento con señales de alarma:
-
-<img src="docs/capturas/03-turno-reservado.png" width="260" alt="Turno reservado con las probabilidades de Clef en pantalla"> <img src="docs/capturas/04-seguimiento-guardia.png" width="260" alt="Seguimiento día 3: Guardia ya">
-
-**Historial** — cada día queda guardado con la decisión que tomó Clef:
-
-<img src="docs/capturas/05-historial.png" width="300" alt="Historial día por día con la ruta decidida en cada jornada">
+<table>
+  <tr>
+    <td valign="top" width="50%">
+      <img src="docs/capturas/01-pedir-turno.png" alt="Pantalla Pedir turno con especie, edad y descripción del problema">
+      <sub>La entrada: especie, edad y la consulta.</sub>
+    </td>
+    <td valign="top" width="50%">
+      <img src="docs/capturas/02-guardia.png" alt="Pantalla roja: Andá ya a la guardia veterinaria, emergencia 98 %">
+      <sub>Pantalla roja: emergencia 98 %, sin turno.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="50%">
+      <img src="docs/capturas/03-turno-reservado.png" alt="Turno reservado con las probabilidades de Clef en pantalla">
+      <sub>Turno reservado con las probabilidades de Clef.</sub>
+    </td>
+    <td valign="top" width="50%">
+      <img src="docs/capturas/04-seguimiento-guardia.png" alt="Seguimiento día 3: Guardia ya">
+      <sub>Seguimiento día 3 con señales de alarma: Guardia ya.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="50%">
+      <img src="docs/capturas/05-historial.png" alt="Historial día por día con la ruta decidida en cada jornada">
+      <sub>Historial: la decisión de cada jornada, guardada.</sub>
+    </td>
+  </tr>
+</table>
 
 Capturas tomadas contra el **Clef real** (llamadas en vivo, sin respuestas de ejemplo).
 
