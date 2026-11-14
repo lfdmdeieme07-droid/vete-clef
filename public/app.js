@@ -82,12 +82,17 @@ const FOLLOWUP_ROUTES = {
   seguir_plan: { title: 'Seguí el plan de tu veterinario', badge: 'Plan', icon: '✓', tone: 'ok' },
 };
 
-/** Trigger codes the follow-up rules return, in owner-facing words. */
+/**
+ * Trigger codes the follow-up rules return, in owner-facing words.
+ *
+ * Short reasons, never full sentences: they are joined after «Clef decidió por:»,
+ * so a sentence here would read twice next to the callout note above.
+ */
 const TRIGGER_LABELS = new Map([
-  ['red_flags', 'Clef vio señales de alerta en el reporte de hoy'],
-  ['guardia_probability', 'Clef se inclinó fuerte por la guardia'],
-  ['worse', 'Clef cree que tu mascota está empeorando'],
-  ['consultar_probability', 'Clef se inclinó por consultar'],
+  ['red_flags', 'señales de alerta en el reporte de hoy'],
+  ['guardia_probability', 'alta probabilidad de guardia'],
+  ['worse', 'empeoramiento respecto del plan'],
+  ['consultar_probability', 'alta probabilidad de consultar'],
 ]);
 
 const TRIAGE_BUTTON_LABEL = 'Ver qué decide Clef';
@@ -655,7 +660,9 @@ function renderFollowup(payload, entry) {
   const body = [];
 
   if (payload.route === 'guardia') {
-    body.push(element('p', 'callout-note', 'Clef vio señales de alerta en el reporte de hoy.'));
+    // Neutral on purpose: the guardia route can fire from a loud probability
+    // without any red flag, so this line must not claim one.
+    body.push(element('p', 'callout-note', 'Clef vio riesgo de guardia ahora.'));
   } else if (payload.route === 'consultar') {
     body.push(element(
       'p',
