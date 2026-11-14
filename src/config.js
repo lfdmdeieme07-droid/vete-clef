@@ -35,9 +35,15 @@ export const THRESHOLDS = {
     maxFreeText: 4000,
     /** docs/api.md asks for a client timeout of at least 50 s. */
     clefTimeoutMs: 50000,
-    /** On 429, wait this long and retry exactly once. */
-    retryDelayMs: 1000,
-    retries: 1,
+    /**
+     * 429 handling: retry with jittered backoff of 1-3 s, up to 4 retries,
+     * always inside a ~40 s budget that stays below the 50 s timeout. Other
+     * 4xx are never retried.
+     */
+    maxRetries: 4,
+    backoffMinMs: 1000,
+    backoffMaxMs: 3000,
+    retryBudgetMs: 40000,
   },
 };
 

@@ -117,9 +117,14 @@ async function readJson(response) {
 export function createClefClient({
   key,
   fetchImpl,
-  thresholds = THRESHOLDS.limits,
+  thresholds,
   sleep = defaultSleep,
+  rng = Math.random,
 }) {
+  // A partial override must never drop the other limits: passing only
+  // retryBudgetMs used to leave clefTimeoutMs undefined and turn every retry
+  // into clef_unavailable.
+  const limits = { ...THRESHOLDS.limits, ...thresholds };
   let queue = Promise.resolve();
 
   /**
@@ -139,7 +144,7 @@ export function createClefClient({
         },
         body: JSON.stringify({ model: 'clef', state, questions }),
         // A fresh signal per attempt, so a retry gets its own 50 s budget.
-        signal: AbortSignal.timeout(thresholds.clefTimeoutMs),
+        signal: AbortSignal.timeout(limits.clefTimeoutMs),
       });
     } catch {
       // Network failure, DNS failure or the aborted timeout signal.
@@ -147,18 +152,26 @@ export function createClefClient({
     }
   }
 
-  /** One exchange with Clef, including the single 429 retry. */
+  /** One exchange with Clef: jittered 429 backoff inside a total retry budget. */
   async function askClef(state, questions) {
-    let retriesLeft = thresholds.retries;
+    let elapsed = 0;
+    let retriesLeft = limits.maxRetries;
 
     for (;;) {
       const response = await sendOnce(state, questions);
       const status = response.status;
 
       if (status === 429) {
-        if (retriesLeft > 0) {
+        // Jittered backoff: spread the retries so a burst of voters does not
+        // synchronize on the same 1 s tick. The budget caps the total waiting
+        // time below the 50 s request timeout.
+        const delay = Math.round(
+          limits.backoffMinMs + rng() * (limits.backoffMaxMs - limits.backoffMinMs),
+        );
+        if (retriesLeft > 0 && elapsed + delay <= limits.retryBudgetMs) {
           retriesLeft -= 1;
-          await sleep(thresholds.retryDelayMs);
+          elapsed += delay;
+          await sleep(delay);
           continue;
         }
         throw new ClefError('clef_busy', status);

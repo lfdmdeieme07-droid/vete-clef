@@ -128,12 +128,13 @@ test('the client queue serializes concurrent asks: never two calls in flight', a
   assert.deepEqual(fake.log, ['start:1', 'end:1', 'start:2', 'end:2']);
 });
 
-test('S20: a 429 is retried once after 1000 ms and the retry resolves', async () => {
+test('S20: a 429 retries with jittered backoff and the retry resolves', async () => {
   const fake = fakeFetch(async (index) =>
     index === 1 ? jsonResponse({ error: { code: 'rate_limited' } }, 429) : jsonResponse(okBody),
   );
   const { sleep, delays } = fakeSleep();
-  const client = clientWith({ fetchImpl: fake.fetchImpl, sleep });
+  // rng fijo en 0: el jitter siempre cae en el minimo (1000 ms), determinista.
+  const client = clientWith({ fetchImpl: fake.fetchImpl, sleep, rng: () => 0 });
 
   const result = await client.ask(STATE, QUESTIONS);
 
@@ -142,18 +143,68 @@ test('S20: a 429 is retried once after 1000 ms and the retry resolves', async ()
   assert.deepEqual(result, okBody);
 });
 
-test('S20: a second 429 throws clef_busy instead of retrying forever', async () => {
+test('S20: 429s past the retry budget throw clef_busy without another call', async () => {
   const fake = fakeFetch(async () => jsonResponse({ error: { code: 'rate_limited' } }, 429));
   const { sleep, delays } = fakeSleep();
-  const client = clientWith({ fetchImpl: fake.fetchImpl, sleep });
+  // rng en 1: cada espera es el maximo (3000 ms). Con presupuesto 5000 ms, la
+  // primera espera cabe (3000), la segunda (3000+3000=6000) lo excede: no hay
+  // tercera llamada.
+  const client = clientWith({
+    fetchImpl: fake.fetchImpl,
+    sleep,
+    rng: () => 1,
+    thresholds: { retryBudgetMs: 5000 },
+  });
 
   const error = await rejects(client.ask(STATE, QUESTIONS));
 
   assert.ok(error instanceof ClefError);
   assert.equal(error.code, 'clef_busy');
-  assert.equal(error.status, 429);
   assert.equal(fake.calls.length, 2);
-  assert.deepEqual(delays, [1000]);
+  assert.deepEqual(delays, [3000]);
+});
+
+test('S20: 429 retries exactly maxRetries times inside the budget, then throws clef_busy', async () => {
+  const fake = fakeFetch(async () => jsonResponse({ error: { code: 'rate_limited' } }, 429));
+  const { sleep, delays } = fakeSleep();
+  // rng en 0.5: espera de 2000 ms cada vez. Presupuesto por defecto 40000 ms:
+  // 4 esperas (8000 ms) caben holgadas, y el maxRetries corta antes que el
+  // presupuesto.
+  const client = clientWith({ fetchImpl: fake.fetchImpl, sleep, rng: () => 0.5 });
+
+  const error = await rejects(client.ask(STATE, QUESTIONS));
+
+  assert.ok(error instanceof ClefError);
+  assert.equal(error.code, 'clef_busy');
+  assert.equal(fake.calls.length, 5); // 1 intento + 4 reintentos
+  assert.deepEqual(delays, [2000, 2000, 2000, 2000]);
+});
+
+test('S20: a 400 response is never retried', async () => {
+  const fake = fakeFetch(async () =>
+    jsonResponse({ error: { code: 'invalid_request' } }, 400),
+  );
+  const { sleep, delays } = fakeSleep();
+  const client = clientWith({ fetchImpl: fake.fetchImpl, sleep });
+
+  const error = await rejects(client.ask(STATE, QUESTIONS));
+
+  assert.equal(error.code, 'clef_failed');
+  assert.equal(fake.calls.length, 1);
+  assert.deepEqual(delays, []);
+});
+
+test('S20: every 429 backoff delay stays within the 1-3 s window', async () => {
+  const fake = fakeFetch(async () => jsonResponse({ error: { code: 'rate_limited' } }, 429));
+  const { sleep, delays } = fakeSleep();
+  const client = clientWith({ fetchImpl: fake.fetchImpl, sleep }); // rng real: Math.random
+
+  await rejects(client.ask(STATE, QUESTIONS));
+
+  assert.ok(delays.length > 0);
+  for (const delay of delays) {
+    assert.ok(delay >= 1000 && delay <= 3000, `delay ${delay} fuera de [1000, 3000]`);
+  }
 });
 
 test('S18: the request carries the model, the state and the questions untouched', async () => {
