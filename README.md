@@ -29,8 +29,6 @@ Dos pantallas, en español, pensadas para el teléfono.
 
 ## Capturas
 
-Tomadas en un iPhone 14 emulado (390×844). **Están en modo demo**: Clef todavía no está habilitado en esta cuenta, así que el Worker respondió con un juego de respuestas sintéticas para poder recorrer la app entera. La validación, las reglas de decisión y las pantallas son el código real; lo único reemplazado es el viaje a Clef. Se regeneran en cuanto el modelo esté disponible, para que muestren la corrida real.
-
 **Pedir turno** — la entrada y la regla de emergencia:
 
 <img src="docs/capturas/01-pedir-turno.png" width="260" alt="Pantalla Pedir turno con especie, edad y descripción del problema"> <img src="docs/capturas/02-guardia.png" width="260" alt="Pantalla roja: Andá ya a la guardia veterinaria, emergencia 98 %">
