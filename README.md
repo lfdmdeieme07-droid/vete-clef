@@ -112,7 +112,7 @@ npm test
 - Un solo Cloudflare Worker (`src/worker.js`) con assets estáticos servidos desde `public/`. HTML, CSS y JS planos: sin framework, sin paso de build.
 - `POST /api/triage` y `POST /api/followup` validan la entrada, recortan el texto libre a 4000 caracteres y arman el `state` que ve Clef.
 - Las reglas de decisión son funciones puras (`src/triage.js`, `src/followup.js`): reciben las respuestas de Clef y devuelven datos, sin red y sin copia de producto. Eso las hace testeables de verdad.
-- `src/clef.js` es el cliente: una sola petición en vuelo (Clef lo exige), reintento único a los 1000 ms ante `429`, timeout de 50 s, y traducción de estados a errores amables. La key nunca aparece en un error ni en un log.
+- `src/clef.js` es el cliente: las peticiones se **serializan por isolate** a través de una cola compartida (Clef exige una sola en vuelo, aunque varios dueños pregunten a la vez), reintentos ante `429` con **backoff con jitter de 1-3 s, hasta 4 veces dentro de un presupuesto de ~40 s** (por debajo del timeout de 50 s; los demás 4xx no se reintentan), y traducción de estados a errores amables. La key nunca aparece en un error ni en un log.
 - Todo el texto del usuario se renderiza con `textContent`: no hay `innerHTML` con datos ajenos.
 - La agenda es falsa y local (`localStorage`, envuelto en `try/catch`, con respaldo en memoria): no se guardan datos personales de nadie.
 
