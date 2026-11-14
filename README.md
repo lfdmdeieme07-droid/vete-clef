@@ -6,6 +6,8 @@ Un asistente para una clínica veterinaria donde **Clef toma la decisión**: el 
 
 > Esta herramienta no reemplaza al veterinario. No da diagnósticos ni dosis. Ante la duda, consultá.
 
+**Demo en vivo:** <https://vete-clef.lfdm-deieme07.workers.dev>
+
 ## La historia
 
 Un cachorro de Dogo Argentino de 45 días con diarrea. El veterinario indicó arroz tres días y después ir agregando alimento de a poco. El problema no era el plan: era que el dueño, día por día, no sabía **si seguir con el plan o llamar al veterinario**. Dudar de más también es un riesgo.
