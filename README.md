@@ -2,6 +2,8 @@ Categoría: Tema libre
 
 # Vete Clef
 
+<img src="docs/portada.png" alt="Vete Clef: Clef decide adónde va la consulta de tu mascota">
+
 Un asistente para una clínica veterinaria donde **Clef toma la decisión**: el dueño describe a su mascota con sus palabras y la app decide qué pasa después. Clef no diagnostica ni receta; decide **a dónde va el caso** y **cuándo hay que escalar a un veterinario**.
 
 > Esta herramienta no reemplaza al veterinario. No da diagnósticos ni dosis. Ante la duda, consultá.
