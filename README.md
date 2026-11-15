@@ -134,7 +134,7 @@ El script corre los diez casos de `cases/cases.json` y muestra las probabilidade
 
 Más allá de los 10 casos del brief, se corrieron 20 consultas con redacciones de «dueños» distintos (tono casual, errores de tipeo, sin tildes, abreviaciones) para medir cómo responde Clef ante variaciones que no controlamos:
 
-- **Determinista**: la misma consulta produce exactamente la misma probabilidad en corridas repetidas.
+- **Estable**: la misma consulta repetida en la misma sesión dio la misma probabilidad; en corridas de días distintos varió unos puntos (el caso del baño dio entre 20 % y 23 %) sin cambiar la decisión.
 - **Robusto a la redacción**: la misma urgencia escrita formal y escrita casual («hola como estas... no le va a hacer nada no?») da 97 % y 92 %, misma decisión.
 - **Distingue la cantidad ingerida**: barra entera 92-98 %, mitad 96 %, cuadradito chico 18 % (→ consulta), trocito de piso en un adulto 3 %.
 - **Pesa la edad del cachorro**: a cantidad fija (cuadradito), 2 meses 18 %, 2 años 5 %, 6 años 3 %.
@@ -150,3 +150,4 @@ Estas observaciones están registradas con sus números completos en `odd/tasks/
 - Reglas, endpoints, UI, agenda y tests: listos y verificados en local.
 - **Clef: activo.** Calibrado contra el modelo real el 14/11: los diez casos de `cases/cases.json` con la ruta esperada, con los umbrales ajustados por evidencia (`scripts/calibrate.mjs`). Las capturas de arriba son decisiones reales de Clef.
 - **Capturas: reales**, tomadas contra el modelo en vivo, sin respuestas de ejemplo.
+- **Próximo paso**: que el plan lo cargue el veterinario desde su panel, en la historia clínica del paciente, en lugar de que el dueño lo copie.
